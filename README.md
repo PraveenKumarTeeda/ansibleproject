@@ -177,3 +177,95 @@
        debug:
          msg: "I LOVE {{os}}"
 ...
+#!/usr/bin/ansible-playbook
+---
+ - name: Create Multiple Files
+   hosts: praveen
+   tasks:
+    - name: File Creation
+      file: dest=/tmp/{{item}} state=touch
+      with_items:
+        - file11
+        - file22
+        - file33
+        - file44
+...
+#!/usr/bin/ansible-playbook
+---
+ - name: Multiple users creation
+   hosts: praveen
+   tasks:
+     - name: User Creation
+       user: name="{{item}}" state=present
+       with_items:
+             - radha1
+             - radha2
+             - krishna1
+             - krishna2
+...
+#!/usr/bin/ansible-playbook
+--- 
+ - name:
+   hosts: praveen
+   tasks:
+     - name: INSTALLING PACKAGEs
+       yum: name="{{item}}" state=present
+       with_items:
+           - ftp
+           - vsftpd
+           - samba
+           - ntp
+...
+#!/usr/bin/ansible-playbook
+---
+ - name: "This is to start the service"
+   hosts: praveen
+   tasks:
+     - name: copying files from server
+       copy: "src=/etc/ssh/sshd_config dest=/etc/ssh/"
+    
+     - name: service restarting
+       service: "name=sshd state=restarted"
+#!/usr/bin/ansible-playbook
+---
+ - name: This is to install package
+   hosts: praveen
+   tasks:
+    - name: Install httpd
+      yum: "name=httpd state=present"
+   
+    - name: edit the file
+      copy: src=/var/www/html/index.html dest=/var/www/html/
+      notify: restart the service
+   handlers:
+  
+    - name: restart the service
+      service: "name=httpd state=restarted"
+...	    
+#!/usr/bin/ansible-playbook
+---
+ - name: This is to start the service
+   hosts: praveen
+   tasks:
+
+     - name: copying file from server
+       copy: src=/etc/ssh/sshd_config dest=/etc/ssh/
+       notify: restart the sshd service
+   handlers:
+
+     - name: service restarting
+       service: name=sshd state=restarted
+       listen: restart the sshd service
+...	   
+#!/usr/bin/ansible-playbook
+---
+ - name: Copying file from server
+   hosts: praveen
+   tasks:
+    - name: file copying
+      copy: src=/etc/ssh/sshd_config dest=/etc/ssh/
+      register: edit
+    - name: service sshd restarting
+      action: service name=sshd state=restarted
+      when: edit.changed
+...
