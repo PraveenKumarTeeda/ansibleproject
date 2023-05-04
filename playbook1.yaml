@@ -1,0 +1,6 @@
+---
+ - name: This is line
+   hosts: praveen
+   tasks:
+     - debug: msg="welcome to b22"
+[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
