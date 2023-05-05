@@ -1,0 +1,10 @@
+---
+ - name: This is my 1st practice session
+   hosts: ansible-master-2
+   tasks:
+    - name: To install httpd service
+      yum: name=httpd state=present
+    - name: Add line to index.html
+      lineinfile: dest=/var/www/html/index.html line=ansible2@varains.com
+    - name: service httpd status
+      service: name=httpd state=started enabled=yes
